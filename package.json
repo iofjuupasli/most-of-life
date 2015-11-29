@@ -1,0 +1,28 @@
+{
+  "name": "most-of-life",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "watchify main.js -v -o bundle.js -t [ babelify --presets [ es2015 ] ]",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:watch": "mochify -w -R spec --node --transform [ babelify --presets [ es2015 ] ]"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iofjuupasli/most-of-life.git"
+  },
+  "author": "Tretyak Valery <iofjuupasli@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iofjuupasli/most-of-life/issues"
+  },
+  "homepage": "https://github.com/iofjuupasli/most-of-life#readme",
+  "dependencies": {
+    "chai": "^3.4.1",
+    "chai-spies": "^0.7.1",
+    "mocha": "^2.3.4",
+    "most": "^0.16.0",
+    "ramda": "^0.18.0"
+  }
+}
