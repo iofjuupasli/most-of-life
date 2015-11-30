@@ -1,3 +1,7 @@
+import most from 'most';
+
+import Vector from '../../pure/Vector';
+
 export default class FieldComponent {
     constructor(element, size, scale) {
         this.size = size;
@@ -8,6 +12,12 @@ export default class FieldComponent {
         element.width = size * scale;
         element.height = size * scale;
         canvas.scale(scale, scale);
+
+        this.toggle$ = most.fromEvent('click', element)
+            .map(e => new Vector(
+                Math.floor((e.x - element.offsetLeft) / scale),
+                Math.floor((e.y - element.offsetTop) / scale)
+            ));
     }
 
     render(board) {

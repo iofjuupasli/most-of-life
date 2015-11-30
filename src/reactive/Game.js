@@ -9,7 +9,7 @@ const rules = (v, vec, board) => {
     }
 }
 
-export default (size) => (start$, stop$, step$, random$, empty$) => {
+export default (size) => (start$, stop$, step$, random$, empty$, toggle$) => {
     const randomBoard = Board
         .empty(size)
         .map(() => Math.random() > 0.5);
@@ -28,7 +28,11 @@ export default (size) => (start$, stop$, step$, random$, empty$) => {
                 .map(() => Math.random() > 0.5)
             ),
 
-            empty$.constant(() => Board.empty(size))
+            empty$.constant(() => Board.empty(size)),
+
+            toggle$.map(toggleVec => board =>
+                board.map((v, vec) => vec.equals(toggleVec) ? !v : v)
+            )
         )
         .scan((board, fn) => fn(board), randomBoard);
 

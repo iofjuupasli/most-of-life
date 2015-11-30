@@ -7,4 +7,8 @@ export default class Vector {
     concat(v){
         return new Vector(this.x + v.x, this.y + v.y);
     }
+
+    equals(v){
+        return this.x === v.x && this.y === v.y;
+    }
 }

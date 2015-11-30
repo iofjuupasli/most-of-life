@@ -20,6 +20,7 @@
   "homepage": "https://github.com/iofjuupasli/most-of-life#readme",
   "dependencies": {
     "most": "^0.16.0",
+    "most-bus": "0.0.3",
     "ramda": "^0.18.0"
   },
   "devDependencies": {
