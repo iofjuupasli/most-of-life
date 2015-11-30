@@ -19,10 +19,15 @@
   },
   "homepage": "https://github.com/iofjuupasli/most-of-life#readme",
   "dependencies": {
+    "most": "^0.16.0",
+    "ramda": "^0.18.0"
+  },
+  "devDependencies": {
     "chai": "^3.4.1",
     "chai-spies": "^0.7.1",
     "mocha": "^2.3.4",
-    "most": "^0.16.0",
-    "ramda": "^0.18.0"
+    "babel-preset-es2015": "^6.1.18",
+    "babelify": "^7.2.0",
+    "watchify": "^3.6.1"
   }
 }
