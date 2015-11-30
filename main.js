@@ -10,5 +10,5 @@ const size = 100;
 const scale = 8;
 
 const panel = Panel(panelElement);
-const game = Game(size)(panel.start$, panel.stop$, panel.step$);
+const game = Game(size)(panel.start$, panel.stop$, panel.step$, panel.random$, panel.empty$);
 Field(element, size, scale)(game.board$);

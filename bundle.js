@@ -25,7 +25,7 @@ var size = 100;
 var scale = 8;
 
 var panel = (0, _Panel2.default)(panelElement);
-var game = (0, _Game2.default)(size)(panel.start$, panel.stop$, panel.step$);
+var game = (0, _Game2.default)(size)(panel.start$, panel.stop$, panel.step$, panel.random$, panel.empty$);
 (0, _Field2.default)(element, size, scale)(game.board$);
 
 },{"./src/reactive/Game":75,"./src/reactive/view/Field":76,"./src/reactive/view/Panel":78,"most":65}],2:[function(require,module,exports){
@@ -6128,13 +6128,21 @@ var rules = function rules(v, vec, board) {
 };
 
 exports.default = function (size) {
-    return function (start$, stop$, step$) {
+    return function (start$, stop$, step$, random$, empty$) {
         var randomBoard = _Board2.default.empty(size).map(function () {
             return Math.random() > 0.5;
         });
 
-        var board$ = _most2.default.merge(start$.constant(_most2.default.periodic(1000 / 60, true)), stop$.constant(_most2.default.empty()), step$.constant(_most2.default.of(true))).switch().scan(function (board) {
+        var board$ = _most2.default.merge(_most2.default.merge(start$.constant(_most2.default.periodic(1000 / 60, true)), stop$.constant(_most2.default.empty()), step$.constant(_most2.default.of(true))).switch().constant(function (board) {
             return board.map(rules);
+        }), random$.constant(function () {
+            return _Board2.default.empty(size).map(function () {
+                return Math.random() > 0.5;
+            });
+        }), empty$.constant(function () {
+            return _Board2.default.empty(size);
+        })).scan(function (board, fn) {
+            return fn(board);
         }, randomBoard);
 
         return { board$: board$ };
@@ -6224,15 +6232,21 @@ exports.default = function (panelElement) {
     var startButton = panelElement.getElementsByClassName('start')[0];
     var stopButton = panelElement.getElementsByClassName('stop')[0];
     var stepButton = panelElement.getElementsByClassName('step')[0];
+    var randomButton = panelElement.getElementsByClassName('random')[0];
+    var emptyButton = panelElement.getElementsByClassName('empty')[0];
 
     var start$ = _most2.default.fromEvent('click', startButton);
     var stop$ = _most2.default.fromEvent('click', stopButton);
     var step$ = _most2.default.fromEvent('click', stepButton);
+    var random$ = _most2.default.fromEvent('click', randomButton);
+    var empty$ = _most2.default.fromEvent('click', emptyButton);
 
     return {
         start$: start$,
         stop$: stop$,
-        step$: step$
+        step$: step$,
+        random$: random$,
+        empty$: empty$
     };
 };
 
