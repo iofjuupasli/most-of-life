@@ -9,16 +9,20 @@ var _Field = require('./src/reactive/view/Field');
 
 var _Field2 = _interopRequireDefault(_Field);
 
+var _most = require('most');
+
+var _most2 = _interopRequireDefault(_most);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var element = document.getElementById('game');
 var size = 100;
 var scale = 8;
 
-var game = (0, _Game2.default)(size);
+var game = (0, _Game2.default)(size)(_most2.default.of(true), _most2.default.empty(), _most2.default.empty());
 (0, _Field2.default)(element, size, scale)(game.board$);
 
-},{"./src/reactive/Game":75,"./src/reactive/view/Field":76}],2:[function(require,module,exports){
+},{"./src/reactive/Game":75,"./src/reactive/view/Field":76,"most":65}],2:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2015 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -6118,15 +6122,17 @@ var rules = function rules(v, vec, board) {
 };
 
 exports.default = function (size) {
-    var randomBoard = _Board2.default.empty(size).map(function () {
-        return Math.random() > 0.5;
-    });
+    return function (start$, stop$, step$) {
+        var randomBoard = _Board2.default.empty(size).map(function () {
+            return Math.random() > 0.5;
+        });
 
-    var board$ = _most2.default.periodic(1000 / 60, true).scan(function (board) {
-        return board.map(rules);
-    }, randomBoard);
+        var board$ = _most2.default.merge(start$.constant(_most2.default.periodic(1000 / 60, true)), stop$.constant(_most2.default.empty()), step$.constant(_most2.default.of(true))).switch().scan(function (board) {
+            return board.map(rules);
+        }, randomBoard);
 
-    return { board$: board$ };
+        return { board$: board$ };
+    };
 };
 
 },{"../pure/Board":73,"most":65}],76:[function(require,module,exports){

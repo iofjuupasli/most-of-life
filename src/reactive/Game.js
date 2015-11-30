@@ -9,12 +9,17 @@ const rules = (v, vec, board) => {
     }
 }
 
-export default (size) => {
+export default (size) => (start$, stop$, step$) => {
     const randomBoard = Board
         .empty(size)
         .map(() => Math.random() > 0.5);
 
-    const board$ = most.periodic(1000 / 60, true)
+    const board$ = most.merge(
+            start$.constant(most.periodic(1000 / 60, true)),
+            stop$.constant(most.empty()),
+            step$.constant(most.of(true))
+        )
+        .switch()
         .scan(board => board.map(rules), randomBoard);
 
     return {board$};
