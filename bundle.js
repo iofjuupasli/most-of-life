@@ -1,6 +1,10 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+var _most = require('most');
+
+var _most2 = _interopRequireDefault(_most);
+
 var _Game = require('./src/reactive/Game');
 
 var _Game2 = _interopRequireDefault(_Game);
@@ -9,20 +13,22 @@ var _Field = require('./src/reactive/view/Field');
 
 var _Field2 = _interopRequireDefault(_Field);
 
-var _most = require('most');
+var _Panel = require('./src/reactive/view/Panel');
 
-var _most2 = _interopRequireDefault(_most);
+var _Panel2 = _interopRequireDefault(_Panel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var element = document.getElementById('game');
+var panelElement = document.getElementById('panel');
 var size = 100;
 var scale = 8;
 
-var game = (0, _Game2.default)(size)(_most2.default.of(true), _most2.default.empty(), _most2.default.empty());
+var panel = (0, _Panel2.default)(panelElement);
+var game = (0, _Game2.default)(size)(panel.start$, panel.stop$, panel.step$);
 (0, _Field2.default)(element, size, scale)(game.board$);
 
-},{"./src/reactive/Game":75,"./src/reactive/view/Field":76,"most":65}],2:[function(require,module,exports){
+},{"./src/reactive/Game":75,"./src/reactive/view/Field":76,"./src/reactive/view/Panel":78,"most":65}],2:[function(require,module,exports){
 /** @license MIT License (c) copyright 2010-2015 original author or authors */
 /** @author Brian Cavalier */
 /** @author John Hann */
@@ -6201,4 +6207,33 @@ var FieldComponent = (function () {
 
 exports.default = FieldComponent;
 
-},{}]},{},[1]);
+},{}],78:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _most = require('most');
+
+var _most2 = _interopRequireDefault(_most);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (panelElement) {
+    var startButton = panelElement.getElementsByClassName('start')[0];
+    var stopButton = panelElement.getElementsByClassName('stop')[0];
+    var stepButton = panelElement.getElementsByClassName('step')[0];
+
+    var start$ = _most2.default.fromEvent('click', startButton);
+    var stop$ = _most2.default.fromEvent('click', stopButton);
+    var step$ = _most2.default.fromEvent('click', stepButton);
+
+    return {
+        start$: start$,
+        stop$: stop$,
+        step$: step$
+    };
+};
+
+},{"most":65}]},{},[1]);
