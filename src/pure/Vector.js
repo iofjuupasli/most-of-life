@@ -11,4 +11,8 @@ export default class Vector {
     equals(v){
         return this.x === v.x && this.y === v.y;
     }
+
+    static deserialize(obj) {
+        return new Vector(obj.x, obj.y);
+    }
 }
