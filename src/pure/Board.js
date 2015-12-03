@@ -62,4 +62,8 @@ export default class Board {
         }
         return new Board(result);
     }
+
+    static deserialize(obj) {
+        return new Board(obj.state);
+    }
 }

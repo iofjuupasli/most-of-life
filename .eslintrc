@@ -16,7 +16,8 @@
             "vars": "all",
             "args": "none"
         }],
-        "no-use-before-define": [2]
+        "no-use-before-define": [2],
+        "no-console": [0]
     },
     "env": {
         "browser": true,
